@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import YandeIndex from './components/yandeIndex.js'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <YandeIndex />
   </React.StrictMode>,
   document.getElementById('root')
 );
