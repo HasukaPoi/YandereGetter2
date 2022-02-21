@@ -1,10 +1,8 @@
-# r-todolist
+# YandereGetter2
 
-对几年没碰的React做一个回顾。先从下面这个站找到的todolist开始。
+Maybe Another UI of yande.re？就总之用React.js提供的东西做一个yande.re的新界面。使用了yande.re官方提供的一些API。
 
-[React入门实战实例——ToDoList实现](https://www.cnblogs.com/CherishTheYouth/p/CherishTheYouth_20200719_2.html)
-
-实际操作中使用Create-React-App来创建工程，尽量不复制代码。
+使用Create-React-App创建工程。
 
 下面的内容是脚手架自动生成的。
 
@@ -14,7 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run:S
 
 ### `npm start`
 
