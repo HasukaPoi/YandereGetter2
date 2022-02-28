@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
+import OnePost from "./OnePost";
 
-//参考ruanyf/react-demos 的 demo12 制作。
 class YandeIndex extends React.Component {
     apiUrl = 'https://yande.re/post.json';
     apiUrl2 = 'https://yande.re/post.json';
@@ -97,6 +97,7 @@ class YandeIndex extends React.Component {
             });
     }
 
+    //TODO Moved toOnePost.js
     calcFileSize(size) {
         let unit = "kB";
         let num = size / 1024;
@@ -109,6 +110,7 @@ class YandeIndex extends React.Component {
 
     }
 
+    //TODO Moved toOnePost.js
     makeOnePost(post) {
 
         return <div style={{ margin: "1em", padding: "1em", minHeight: "160px", backgroundColor: "lightcyan" }}>
@@ -167,7 +169,9 @@ class YandeIndex extends React.Component {
         if (!this.state.loading) {
             mainpart = <div>{
                 this.state.posts.map((post, index) => {
-                    return this.makeOnePost(post);
+                    //return this.makeOnePost(post);
+                    //Each child in a list should have a unique "key" prop.
+                    return <OnePost key={post.id} post={post}/>
                 })
             }</div>
         }
