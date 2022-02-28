@@ -1,5 +1,7 @@
 import React from "react";
 import axios from 'axios';
+import { Button } from 'antd';
+import "./yandeIndex.css";
 import OnePost from "./OnePost";
 
 class YandeIndex extends React.Component {
