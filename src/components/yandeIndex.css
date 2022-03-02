@@ -1,1 +1,10 @@
 @import '~antd/dist/antd.css';
+
+.site-frame{
+    margin:24px;
+}
+
+.site-header{
+    border: 1px solid rgb(235, 237, 240);
+    background-color: white;
+}
