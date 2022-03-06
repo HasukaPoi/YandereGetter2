@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Input, Row, Col, Divider,Card, } from 'antd';
+import { Col, Card } from 'antd';
 
 class OnePost extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 

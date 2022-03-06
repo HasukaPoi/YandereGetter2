@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import { Button, Input,InputNumber, Row, Col, Divider, PageHeader, Layout, Space,Switch } from 'antd';
+import { Button, Input, InputNumber, Row, Col, Divider, PageHeader, Layout, Switch } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import "./yandeIndex.css";
 import OnePost from "./OnePost";
@@ -11,27 +11,16 @@ class YandeIndex extends React.Component {
     apiUrl2 = 'https://yande.re/post.json';
     attrToShow = ["id", "tags", "source", "width", "height", "file_ext", "file_size", "preview_url", "sample_url", "jpeg_url", "file_url"];
 
-    setting={};
+    setting = {};
 
     constructor(props) {
         super(props);
-
-        //关键字输入框
-        this.inputKeyword = React.createRef();
-        //NSFW模式开关
-        this.checkNsfw = React.createRef();
-
-        this.inputLimit = React.createRef();
-
-        
 
         //binding
         this.handleKeyword = this.handleKeyword.bind(this);
         this.refreshPosts = this.refreshPosts.bind(this);
         this.changeSetting2 = this.changeSetting2.bind(this);
-        this.changePage=this.changePage.bind(this)
-        this.pagePrev=this.pagePrev.bind(this);
-        this.pageNext=this.pageNext.bind(this);
+        this.changePage = this.changePage.bind(this);
 
         this.state = {
             posts: [],
@@ -39,7 +28,6 @@ class YandeIndex extends React.Component {
             loading: false,
             nsfw: false,
             limit: 40,
-            limitSaved: 40,
             page: 1,
             settingChanged: false,
         }
@@ -47,31 +35,30 @@ class YandeIndex extends React.Component {
         this.copySetting();
     }
 
-    copySetting(){
-        this.setting=JSON.parse(JSON.stringify(this.state));
-        //
+    copySetting() {
+        //从state把页面内容保存到setting
+        this.setting = JSON.parse(JSON.stringify(this.state));
     }
 
     //关键字变更
     handleKeyword(e) {
         //按回车时执行搜索，否则更新state中的关键字
-        //※antd不用ref，直接target
-        //console.log(event.target.value)
         if (typeof (e) === "object") {
             //console.log(e);
             if (e.keyCode === 13) {
-                this.setState({page:1})
+                this.setState({ page: 1 })
                 this.refreshPosts();
             } else {
                 //this.setting.keyword = e.target.value;
-                this.setState({keyword:e.target.value});
+                this.setState({ keyword: e.target.value });
             }
-        }else if (e==="search"){
-            this.setState({page:1});
+        } else if (e === "search") {
+            this.setState({ page: 1 });
             this.refreshPosts();
         }
     }
 
+    //TODO 让组件传参进来
     changeSetting2(arg1, arg2) {
         //Input: event
         //InputNumber: value, event
@@ -118,23 +105,6 @@ class YandeIndex extends React.Component {
         }
     }
 
-    pagePrev() {
-        this.setState(state => {
-            return {
-                page: state.page - 1 < 1 ? 1 : state.page - 1,
-            }
-        })
-        this.refreshPosts();
-    }
-
-    pageNext() {
-        this.setState(state => {
-            return {
-                page: state.page + 1,
-            }
-        })
-        this.refreshPosts();
-    }
 
     makeApiUrl() {
         let para = "";
@@ -152,11 +122,10 @@ class YandeIndex extends React.Component {
     }
 
     refreshPosts(event) {
-        this.setState({settingChanged:false});
+        this.setState({ settingChanged: false });
         this.makeApiUrl();
         this.setState({
             loading: true,
-            limitSaved: this.state.limit,
         });
         axios({ method: 'get', url: `${this.apiUrl2}` })
             .then(response => {
@@ -175,7 +144,7 @@ class YandeIndex extends React.Component {
                     <Col xs={24} md={12} xl={8}>
                         <Input.Group compact>
                             <Input style={{ width: 'calc(100% - 100px)' }} placeholder="在这里输入tags" value={this.state.keyword} onChange={this.handleKeyword} onKeyUp={this.handleKeyword} />
-                            <Button id="button-search" type="primary" icon={<SearchOutlined />} onClick={()=>{this.handleKeyword("search")}}>搜索</Button>
+                            <Button id="button-search" type="primary" icon={<SearchOutlined />} onClick={() => { this.handleKeyword("search") }}>搜索</Button>
                         </Input.Group>
                     </Col>
                 </Row>
@@ -192,15 +161,15 @@ class YandeIndex extends React.Component {
     makePageTurner() {
         return <Row style={{ margin: "24px 12px" }}>
             <Col xs={24} md={12} xl={8}>
-                <Button disabled={this.setting.page === 1} onClick={()=>{
-                    this.changePage(this.state.page-1)
+                <Button disabled={this.setting.page === 1} onClick={() => {
+                    this.changePage(this.state.page - 1)
                     this.refreshPosts();
-                    }} >上一页</Button>
-                <span style={{margin:"0 12px"}}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
-                <Button onClick={()=>{
-                    this.changePage(this.state.page+1)
+                }} >上一页</Button>
+                <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
+                <Button onClick={() => {
+                    this.changePage(this.state.page + 1)
                     this.refreshPosts();
-                    }} >下一页</Button>
+                }} >下一页</Button>
                 跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
             </Col>
         </Row>;
@@ -217,7 +186,7 @@ class YandeIndex extends React.Component {
     render() {
         let mainpart = <div>Loading...</div>
         if (!this.state.loading) {
-            mainpart = <div style={{margin:"0 12px"}}><Row gutter={[12, 12]} >{
+            mainpart = <div style={{ margin: "0 12px" }}><Row gutter={[12, 12]} >{
                 this.state.posts.map((post, index) => {
                     //return this.makeOnePost(post);
                     //Each child in a list should have a unique "key" prop.
