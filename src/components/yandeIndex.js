@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import { Button, Input, InputNumber, Row, Col, Divider, PageHeader, Layout, Switch } from 'antd';
+import { Button, Input, InputNumber, Row, Col, Divider, PageHeader, Layout, Switch, Radio } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import "./yandeIndex.css";
 import OnePost from "./OnePost";
@@ -30,6 +30,7 @@ class YandeIndex extends React.Component {
             limit: 40,
             page: 1,
             settingChanged: false,
+            postStyle:2
         }
 
         this.copySetting();
@@ -63,27 +64,27 @@ class YandeIndex extends React.Component {
         //Input: event
         //InputNumber: value, event
         //Switch: value, event
+        //RadioGroup: event
         // console.log(arg1);
         // console.log(arg2);
         let id;
         let value;
         if (typeof (arg1) === "object") {
-            id = arg1.target.id;
+            id = arg1.target.name;
             value = arg1.target.value;
         } else {
-            id = arg2.target.id;
-            if (id === "") {
-                //Switch的时候也许触发的不一样
-                id = arg2.target.parentNode.id;
-            }
-
+            id = arg2.target.name;
             value = arg1;
         }
         this.setState(state => {
             try {
+
                 id = id.split("-")[1];
                 state[id] = value;
-                state.settingChanged = true;
+                if (id === "postStyle" || typeof (id) === "undefined") {
+                } else {
+                    state.settingChanged = true;
+                }
             } catch (err) {
 
             } finally {
@@ -152,8 +153,14 @@ class YandeIndex extends React.Component {
                     设置<small>{this.state.settingChanged ? "【未生效】" : ""}</small>
                 </Divider>
                 <div>※修改后需要重新执行搜索才有效。关键字中指定了rating的情况下覆盖NSFW模式设置项。</div>
-                <div>NSFW模式: <Switch id="setting-nsfw" checked={this.state.nsfw} onChange={this.changeSetting2} /></div>
-                <div>每页post数量：<Input id="setting-limit" style={{ width: '50px' }} value={this.state.limit} onChange={this.changeSetting2} /></div>
+                <div>NSFW模式: <Switch id="setting-nsfw" name="setting-nsfw" checked={this.state.nsfw} onChange={this.changeSetting2} /></div>
+                <Radio.Group onChange={this.changeSetting2} value={this.state.postStyle} name="setting-postStyle">
+                    <Radio value={1}>A</Radio>
+                    <Radio value={2}>B</Radio>
+                    <Radio value={3}>C</Radio>
+                    <Radio value={4}>D</Radio>
+                </Radio.Group>
+                <div>每页post数量：<Input id="setting-limit" name="setting-limit" style={{ width: '50px' }} value={this.state.limit} onChange={this.changeSetting2} /></div>
             </PageHeader>
         </>;
     }
@@ -163,12 +170,10 @@ class YandeIndex extends React.Component {
             <Col xs={24} md={12} xl={8}>
                 <Button disabled={this.setting.page === 1} onClick={() => {
                     this.changePage(this.state.page - 1)
-                    this.refreshPosts();
                 }} >上一页</Button>
                 <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
                 <Button onClick={() => {
                     this.changePage(this.state.page + 1)
-                    this.refreshPosts();
                 }} >下一页</Button>
                 跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
             </Col>
@@ -181,6 +186,9 @@ class YandeIndex extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.copySetting();
+        if (this.state.page !== prevState.page){
+            this.refreshPosts();
+        }
     }
 
     render() {
@@ -190,7 +198,7 @@ class YandeIndex extends React.Component {
                 this.state.posts.map((post, index) => {
                     //return this.makeOnePost(post);
                     //Each child in a list should have a unique "key" prop.
-                    return <OnePost key={post.id} post={post} />
+                    return <OnePost key={post.id} post={post} postStyle={this.state.postStyle} />
                 })
             }</Row></div>
         }
