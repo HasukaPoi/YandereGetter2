@@ -155,10 +155,8 @@ class YandeIndex extends React.Component {
                 <div>※修改后需要重新执行搜索才有效。关键字中指定了rating的情况下覆盖NSFW模式设置项。</div>
                 <div>NSFW模式: <Switch id="setting-nsfw" name="setting-nsfw" checked={this.state.nsfw} onChange={this.changeSetting2} /></div>
                 <Radio.Group onChange={this.changeSetting2} value={this.state.postStyle} name="setting-postStyle">
-                    <Radio value={1}>A</Radio>
-                    <Radio value={2}>B</Radio>
-                    <Radio value={3}>C</Radio>
-                    <Radio value={4}>D</Radio>
+                    <Radio value={1}>1</Radio>
+                    <Radio value={2}>2</Radio>
                 </Radio.Group>
                 <div>每页post数量：<Input id="setting-limit" name="setting-limit" style={{ width: '50px' }} value={this.state.limit} onChange={this.changeSetting2} /></div>
             </PageHeader>
@@ -173,7 +171,7 @@ class YandeIndex extends React.Component {
                 }} >上一页</Button>
                 <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
                 <Button onClick={() => {
-                    this.changePage(this.state.page + 1)
+                    this.changePage(this.state.page + 1) //TODO Page Turner have bug
                 }} >下一页</Button>
                 跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
             </Col>

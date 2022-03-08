@@ -1,5 +1,13 @@
 @import '~antd/dist/antd.css';
 
 .ant-collapse-header{
-    padding:8px !important
+    padding:8px 0 !important
+}
+
+.ant-collapse-content-box{
+    padding: 6px 0 !important
+}
+
+.ant-collapse-content-box p{
+    margin: 0
 }

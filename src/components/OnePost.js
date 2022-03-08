@@ -3,9 +3,6 @@ import React from "react";
 import { Col, Card, Collapse } from 'antd';
 
 class OnePost extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     calcFileSize(size) {
         let unit = "kB";
@@ -47,7 +44,7 @@ class OnePost extends React.Component {
                 </Col>
             );
         } else return (
-            <Col xs={12} md={8} xl={4} style={{ minHeight: "160px" }}>
+            <Col xs={12} sm={8} md={6} xl={4} style={{ minHeight: "160px" }}>
                 <Card>
                     <div style={{
                         textAlign: "center",
