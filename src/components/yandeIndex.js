@@ -30,7 +30,7 @@ class YandeIndex extends React.Component {
             limit: 40,
             page: 1,
             settingChanged: false,
-            postStyle:2
+            postStyle: 2
         }
 
         this.copySetting();
@@ -164,18 +164,16 @@ class YandeIndex extends React.Component {
     }
 
     makePageTurner() {
-        return <Row style={{ margin: "24px 12px" }}>
-            <Col xs={24} md={12} xl={8}>
-                <Button disabled={this.setting.page === 1} onClick={() => {
-                    this.changePage(this.state.page - 1)
-                }} >上一页</Button>
-                <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
-                <Button onClick={() => {
-                    this.changePage(this.state.page + 1) //TODO Page Turner have bug
-                }} >下一页</Button>
-                跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
-            </Col>
-        </Row>;
+        return <div className="yandere-box">
+            <Button disabled={this.setting.page === 1} onClick={() => {
+                this.changePage(this.state.page - 1)
+            }} >上一页</Button>
+            <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
+            <Button onClick={() => {
+                this.changePage(this.state.page + 1) //TODO Page Turner have bug
+            }} >下一页</Button>
+            跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
+        </div>;
     }
 
     componentDidMount() {
@@ -184,7 +182,7 @@ class YandeIndex extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.copySetting();
-        if (this.state.page !== prevState.page){
+        if (this.state.page !== prevState.page) {
             this.refreshPosts();
         }
     }
@@ -192,7 +190,7 @@ class YandeIndex extends React.Component {
     render() {
         let mainpart = <div>Loading...</div>
         if (!this.state.loading) {
-            mainpart = <div style={{ margin: "0 12px" }}><Row gutter={[12, 12]} >{
+            mainpart = <div style={{ padding: "0 16px" }}><Row gutter={[12, 12]} >{
                 this.state.posts.map((post, index) => {
                     //return this.makeOnePost(post);
                     //Each child in a list should have a unique "key" prop.

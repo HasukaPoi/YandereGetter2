@@ -11,3 +11,23 @@
 .ant-collapse-content-box p{
     margin: 0
 }
+
+.preview:hover{
+    z-index: 998;
+    transform: scale(2);
+}
+
+.yandere-card {
+    background-color: white;
+    margin:4px;
+    padding:12px;
+    border-radius: 4px;
+    width:200px;
+}
+
+.singleline{
+    padding:0 0 0 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
