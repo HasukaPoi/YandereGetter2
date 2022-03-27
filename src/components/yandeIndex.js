@@ -117,21 +117,22 @@ class YandeIndex extends React.Component {
         console.log(keyword);
         para = para + "?tags=" + encodeURI(keyword);
         para = para + "&limit=" + this.state.limit;
-        para = para + "&page=" + this.state.page;
+        para = para + "&page=" + this.setting.page;
         this.apiUrl2 = this.apiUrl + para;
         console.log(this.apiUrl2);
     }
 
     refreshPosts(event) {
-        this.setState({ settingChanged: false });
         this.makeApiUrl();
         this.setState({
             loading: true,
         });
         axios({ method: 'get', url: `${this.apiUrl2}` })
             .then(response => {
+                this.copySetting();
                 console.log(response.data)
                 this.setState({
+                    settingChanged: false,
                     loading: false,
                     posts: response.data
                 })
@@ -166,11 +167,11 @@ class YandeIndex extends React.Component {
     makePageTurner() {
         return <div className="yandere-box">
             <Button disabled={this.setting.page === 1} onClick={() => {
-                this.changePage(this.state.page - 1)
+                this.changePage(this.setting.page - 1); this.refreshPosts();
             }} >上一页</Button>
             <span style={{ margin: "0 12px" }}>当前在第 {this.setting.page} 页（第{(this.setting.page - 1) * this.setting.limit + 1}～{this.setting.page * this.setting.limit}张）</span>
             <Button onClick={() => {
-                this.changePage(this.state.page + 1) //TODO Page Turner have bug
+                this.changePage(this.setting.page + 1); this.refreshPosts();
             }} >下一页</Button>
             跳转：<InputNumber style={{ width: '75px' }} value={this.state.page} onChange={this.changePage} onPressEnter={this.changePage} />
         </div>;
@@ -178,13 +179,6 @@ class YandeIndex extends React.Component {
 
     componentDidMount() {
         this.refreshPosts();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        this.copySetting();
-        if (this.state.page !== prevState.page) {
-            this.refreshPosts();
-        }
     }
 
     render() {
